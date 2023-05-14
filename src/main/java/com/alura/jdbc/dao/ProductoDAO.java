@@ -1,6 +1,5 @@
 package com.alura.jdbc.dao;
 
-import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Producto;
 
 import java.sql.*;
@@ -57,7 +56,7 @@ public class ProductoDAO {
 
         try {
             final PreparedStatement statement = con.prepareStatement("INSERT INTO PRODUCTO" +
-                            "(nombre, descripcion, cantidad) VALUES (?, ?, ?)",
+                            "(nombre, descripcion, cantidad, categoria_id) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             try(statement){
                     ejecutaRegistro(producto, statement);
@@ -71,6 +70,7 @@ public class ProductoDAO {
         statement.setString(1, producto.getNombre());
         statement.setString(2, producto.getDescripcion());
         statement.setInt(3, producto.getCantidad());
+        statement.setInt(4, producto.getCategoriaId());
 
         statement.execute();
 

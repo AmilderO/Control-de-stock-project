@@ -3,6 +3,7 @@ package com.alura.jdbc.modelo;
 public class Producto {
 
     // Attributes
+    public Integer categoriaId;
     private Integer id;
     private String nombre;
     private String descripcion;
@@ -39,6 +40,8 @@ public class Producto {
         return cantidad;
     }
 
+    public int getCategoriaId() { return this.categoriaId; }
+
     public Integer getId() {
         return id;
     }
@@ -47,6 +50,11 @@ public class Producto {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
 
     //toString
     @Override
@@ -59,4 +67,5 @@ public class Producto {
                 this.cantidad
         );
     }
+
 }
