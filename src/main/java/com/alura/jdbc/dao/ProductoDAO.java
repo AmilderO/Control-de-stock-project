@@ -20,7 +20,7 @@ public class ProductoDAO {
             Statement statement = con.createStatement();
 
             try(statement) {
-                boolean result = statement.execute("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
+                statement.execute("SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO");
                 final ResultSet resultset = statement.getResultSet();
 
                 try(resultset) {
@@ -46,6 +46,43 @@ public class ProductoDAO {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public List<Producto> listar(Integer categoriaId){
+        try {
+            final PreparedStatement statement = con.prepareStatement(
+                    "SELECT ID, NOMBRE, DESCRIPCION, CANTIDAD FROM PRODUCTO" +
+                            " WHERE CATEGORIA_ID = (?)"
+            );
+            try(statement) {
+
+                statement.setInt(1, categoriaId);
+                statement.execute();
+
+                final ResultSet resultset = statement.getResultSet();
+
+                try(resultset) {
+                    List<Producto> resultado = new ArrayList<>();
+
+                    while(resultset.next()){
+                        Producto fila = new Producto(
+                                resultset.getInt("ID"),
+                                resultset.getString("NOMBRE"),
+                                resultset.getString("DESCRIPCION"),
+                                resultset.getInt("CANTIDAD")
+                        );
+
+
+                        resultado.add(fila);
+                    }
+                    return resultado;
+                }
+
+            }
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     public void guardar(Producto producto) {
